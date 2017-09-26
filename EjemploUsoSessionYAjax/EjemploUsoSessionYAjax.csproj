@@ -170,7 +170,10 @@
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PruebaController.cs" />
+    <Compile Include="Core\EmployeeProfile.cs" />
     <Compile Include="Core\IProveedorDeMensaje.cs" />
+    <Compile Include="Core\PerfilesAutomapper\EmployeeProfile.cs" />
+    <Compile Include="Core\PerfilesAutomapper\ItemProfile.cs" />
     <Compile Include="Core\ProveedorDeMensaje.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />

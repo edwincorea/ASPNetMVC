@@ -16,9 +16,16 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace EjemploUsoSessionYAjax.DependencyResolution {
+    using AutoMapper;
+    using AutoMapper.Configuration;
+    using Controllers;
+    using Core;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
-	
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class DefaultRegistry : Registry {
         #region Constructors and Destructors
 
@@ -27,9 +34,29 @@ namespace EjemploUsoSessionYAjax.DependencyResolution {
                 scan => {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
-					scan.With(new ControllerConvention());
+                    scan.With(new ControllerConvention());
                 });
-            
+
+            //Obtener los perfiles
+            IEnumerable<AutoMapper.Profile> profiles = from t in typeof(DefaultRegistry).Assembly.GetTypes()
+                                                       where typeof(Profile).IsAssignableFrom(t)
+                                                       select (Profile)Activator.CreateInstance(t);
+
+            //Para cada perfil, incluir el perfil en el MapperConfigurationExpression
+            MapperConfigurationExpression configuracion = new MapperConfigurationExpression();
+            foreach (var profile in profiles)
+            {
+                configuracion.AddProfile(profile);
+            }
+
+            MapperConfiguration configuracionDeMapeador = new MapperConfiguration(configuracion);
+
+            //Crear mapeador que será usado por el contenedor DI
+            var mapeadorDeObjetos = new Mapper(configuracionDeMapeador);
+
+            //Regitrar las interfaces DI con su implementación
+            For<MapperConfiguration>().Use(configuracionDeMapeador);
+            For<IMapper>().Use(mapeadorDeObjetos);
         }
 
         #endregion
