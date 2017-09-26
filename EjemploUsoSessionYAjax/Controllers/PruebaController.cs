@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using EjemploUsoSessionYAjax.Models;
 using AutoMapper;
@@ -10,6 +7,12 @@ namespace EjemploUsoSessionYAjax.Controllers
 {
     public class PruebaController : Controller
     {
+        private IMapper mapeadorDeObjetos;
+
+        public PruebaController(IMapper mapeadorDeObjetos)
+        {
+            this.mapeadorDeObjetos = mapeadorDeObjetos;
+        }
 
         private List<Models.Item> Items
         {
@@ -33,17 +36,12 @@ namespace EjemploUsoSessionYAjax.Controllers
                 Apellido = "Doe",
                 SalarioBruto = 1200,
                 Activo = true                
-            };
+            };            
 
-            ViewBag.Items = ObtenerItems();
+            ViewBag.Employee = this.mapeadorDeObjetos.Map<ViewModels.EmployeeViewModel>(employee);
 
-            MapperConfiguration configuracionDeMapeo = new AutoMapper.MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Models.Employee, ViewModels.EmployeeViewModel>();
-            });
-
-            var mapeadorDeObjetos = configuracionDeMapeo.CreateMapper();
-            ViewBag.Employee = mapeadorDeObjetos.Map<Models.Employee, ViewModels.EmployeeViewModel>(employee);
+            List<Item> items = ObtenerItems();            
+            ViewBag.Items = this.mapeadorDeObjetos.Map<List<Models.Item>, List<ViewModels.ItemViewModel>>(items);
 
             return View();
         }

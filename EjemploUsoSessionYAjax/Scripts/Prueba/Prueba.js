@@ -34,7 +34,7 @@ function MostrarItemsSesion() {
                var contenido = "";
                $("#_agregados").children().remove();
                $.each(data, function (indice, valor) {
-                   $("#_agregados").append('<option value="'+valor.id+'">'+valor.nombre+'</option>');
+                   $("#_agregados").append('<option value="'+valor.Id+'">'+valor.Nombre+'</option>');
                });
            },
            error: function (a, b, c) {

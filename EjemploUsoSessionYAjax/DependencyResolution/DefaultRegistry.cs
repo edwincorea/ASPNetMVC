@@ -29,7 +29,7 @@ namespace EjemploUsoSessionYAjax.DependencyResolution {
                     scan.WithDefaultConventions();
 					scan.With(new ControllerConvention());
                 });
-            //For<IExample>().Use<Example>();
+            
         }
 
         #endregion
