@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+
+    List<EjemploUsoSessionYAjax.Models.Item> items = ViewBag.Items;
+    EjemploUsoSessionYAjax.ViewModels.EmployeeViewModel employee = ViewBag.Employee;
+}
+
+<h2>Index</h2>
+<h3>@(string.Format("Empleado: {0} {1}", employee.Nombre, employee.Apellido))</h3> 
+
+@Html.ListBox("Items", new SelectList(items, "Id", "Nombre"), new {@id="_items"})
+<br />
+<input id="_agregar" value="agregar" type="button"/>
+<br />
+<br />
+<div id="items_seleccionados" >
+    <select size="10" id="_agregados">
+
+    </select>
+</div>
+
+@using (Html.BeginForm("Finalizar","Prueba"))
+{
+    <input type="submit" value="Finalizar"/>
+}
+
+
+@section Scripts {
+
+<script src="~/Scripts/Prueba/Prueba.js?id=@(DateTime.Now.Ticks)"></script>
+
+}
